@@ -20,7 +20,8 @@ const CreateArticle = () => {
     };
 
     try {
-      const response = await fetch(`${config.apiBaseUrl}/articles`, {
+      //const response = await fetch(`${config.apiBaseUrl}/articles`, {
+      const response = await fetch("https://portfolio-service-api-zadrkqynyq-an.a.run.app/articles", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
