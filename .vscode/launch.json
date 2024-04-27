@@ -1,0 +1,21 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "DebugContainer",
+      "type": "go",
+      "debugAdapter": "dlv-dap",
+      "request": "launch",
+      "port": 2347,
+      "host": "localhost",
+      "mode": "exec",
+      "program": "/src/backend/tmp/main",
+      "substitutePath": [
+        {
+          "from": "${workspaceFolder}",
+          "to": "/src"
+        }
+      ]
+    }
+  ]
+}
