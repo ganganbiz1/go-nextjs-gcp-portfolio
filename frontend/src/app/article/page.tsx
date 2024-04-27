@@ -11,7 +11,8 @@ const ArticleList = () => {
 
   useEffect(() => {
     const fetchArticles = async () => {
-      const res = await fetch(`${config.apiBaseUrl}/articles`);
+      // const res = await fetch(`${config.apiBaseUrl}/articles`);
+      const res = await fetch("https://portfolio-service-api-zadrkqynyq-an.a.run.app/articles");
       if (!res.ok) {
         console.error('Failed to fetch articles');
         return;
