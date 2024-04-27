@@ -1,0 +1,67 @@
+name: Go Integration Tests
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:15.6
+        env:
+          POSTGRES_USER: testuser
+          POSTGRES_PASSWORD: testpassword
+          POSTGRES_DB: testdb
+        ports:
+          - 5432:5432
+        options: --health-cmd="pg_isready -U postgres" --health-interval=10s --health-timeout=5s --health-retries=5
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install PostgreSQL client
+        run: |
+          sudo apt-get update --allow-insecure-repositories
+          sudo apt-get install -y postgresql-client
+
+      - name: Execute DDL
+        run: |
+          for sql_file in $(ls ./ddl/*.sql | sort); do
+            PGPASSWORD=testpassword psql -h 127.0.0.1 -d testdb -U testuser -f $sql_file
+          done
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: ./backend/go.mod
+
+      - name: Wire
+        run: |
+          cd backend
+          go mod download
+          go install github.com/google/wire/cmd/wire@v0.6.0
+          go generate -x -tags wireinject ./wire/it/test_wire.go
+
+      - name: Run tests
+        run: |
+            cd backend
+            go test -covermode=atomic ./handler/...
+          
+        env:
+          APP_ENV: localhost
+          APP_NAME: portfolio-app-gcp
+          SERVER_PORT: 9000
+          POSTGRES_TIME_ZONE_TEST: UTC
+          POSTGRES_SSL_MODE_TEST: disable
+          POSTGRES_HOST_TEST: 127.0.0.1
+          POSTGRES_DB_TEST: testdb
+          POSTGRES_PORT_TEST: 3306
+          POSTGRES_USER_TEST: testuser
+          POSTGRES_PASSWORD_TEST: testpassword
+          DD_AGENT_HOST: datadog
+          POSTGRES_SSL_MODE: 3306
+          DD_AGENT_PORT: 8126

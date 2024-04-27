@@ -1,0 +1,28 @@
+name: Go Unit Tests
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: ./backend/go.mod
+
+      - name: Wire
+        run: |
+          cd backend
+          go mod download
+          go install github.com/google/wire/cmd/wire@v0.6.0
+          go generate -x -tags wireinject ./wire/wire.go
+
+      - name: Run Test
+        run: |
+          cd backend
+          go test -covermode=atomic ./domain/service/...
