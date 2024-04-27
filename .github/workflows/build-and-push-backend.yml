@@ -1,4 +1,4 @@
-name: api build and push to gcp
+name: Build and Push to Artifact Registry Backend
 
 on:
   workflow_dispatch:
