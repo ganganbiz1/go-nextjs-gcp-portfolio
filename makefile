@@ -51,7 +51,7 @@ wire-test:
 
 .PHONY: oapi-codegen
 oapi-codegen:
-	docker container exec -it ${APP_CONTAINER_NAME} oapi-codegen -package openapi -generate types,server -o ./openapi/openapi.gen.go /src/app/openapi/openapi.yml
+	docker container exec -it ${APP_CONTAINER_NAME} oapi-codegen -package openapi -generate types,server -o ./openapi/openapi.gen.go /src/backend/openapi/openapi.yml
 
 .PHONY: lint
 lint: 

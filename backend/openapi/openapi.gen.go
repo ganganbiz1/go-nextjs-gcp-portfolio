@@ -11,17 +11,58 @@ import (
 	"github.com/oapi-codegen/runtime"
 )
 
+// Article 記事
+type Article struct {
+	// Content 本文
+	Content *string `json:"content,omitempty"`
+
+	// Id 記事ID
+	Id *int `json:"id,omitempty"`
+
+	// ImageId 画像ID
+	ImageId *int `json:"imageId,omitempty"`
+
+	// Title タイトル
+	Title *string `json:"title,omitempty"`
+}
+
 // User ユーザ
 type User struct {
 	// CognitoUserId cognitoUserId
 	CognitoUserId *string `json:"cognitoUserId,omitempty"`
-	Email         *string `json:"email,omitempty"`
+
+	// Email メールアドレス
+	Email *string `json:"email,omitempty"`
 
 	// Id ユーザID
 	Id *int `json:"id,omitempty"`
 
 	// Name ユーザ名前
 	Name *string `json:"name,omitempty"`
+}
+
+// PostArticlesJSONBody defines parameters for PostArticles.
+type PostArticlesJSONBody struct {
+	// Content 本文
+	Content string `json:"content"`
+
+	// ImageId 画像ID
+	ImageId int `json:"imageId"`
+
+	// Title タイトル
+	Title string `json:"title"`
+}
+
+// PutArticlesArticleIdJSONBody defines parameters for PutArticlesArticleId.
+type PutArticlesArticleIdJSONBody struct {
+	// Content 本文
+	Content string `json:"content"`
+
+	// ImageId 画像ID
+	ImageId int `json:"imageId"`
+
+	// Title タイトル
+	Title string `json:"title"`
 }
 
 // PostUsersJSONBody defines parameters for PostUsers.
@@ -35,9 +76,21 @@ type PostUsersJSONBody struct {
 
 // PutUsersUserIdJSONBody defines parameters for PutUsersUserId.
 type PutUsersUserIdJSONBody struct {
-	// User ユーザ
-	User *User `json:"user,omitempty"`
+	// CognitoUserId cognitoUserId
+	CognitoUserId *string `json:"cognitoUserId,omitempty"`
+
+	// Email メールアドレス
+	Email *string `json:"email,omitempty"`
+
+	// Name ユーザ名前
+	Name *string `json:"name,omitempty"`
 }
+
+// PostArticlesJSONRequestBody defines body for PostArticles for application/json ContentType.
+type PostArticlesJSONRequestBody PostArticlesJSONBody
+
+// PutArticlesArticleIdJSONRequestBody defines body for PutArticlesArticleId for application/json ContentType.
+type PutArticlesArticleIdJSONRequestBody PutArticlesArticleIdJSONBody
 
 // PostUsersJSONRequestBody defines body for PostUsers for application/json ContentType.
 type PostUsersJSONRequestBody PostUsersJSONBody
@@ -47,6 +100,18 @@ type PutUsersUserIdJSONRequestBody PutUsersUserIdJSONBody
 
 // ServerInterface represents all server handlers.
 type ServerInterface interface {
+	// 記事一覧
+	// (GET /articles)
+	GetArticles(ctx echo.Context) error
+	// 記事を作成
+	// (POST /articles)
+	PostArticles(ctx echo.Context) error
+	// ユーザ詳細
+	// (GET /articles/{articleId})
+	GetArticlesArticleId(ctx echo.Context, articleId int) error
+	// 記事編集
+	// (PUT /articles/{articleId})
+	PutArticlesArticleId(ctx echo.Context, articleId int) error
 	// ヘルスチェック
 	// (GET /healthcheck)
 	GetHealthcheck(ctx echo.Context) error
@@ -67,6 +132,56 @@ type ServerInterface interface {
 // ServerInterfaceWrapper converts echo contexts to parameters.
 type ServerInterfaceWrapper struct {
 	Handler ServerInterface
+}
+
+// GetArticles converts echo context to params.
+func (w *ServerInterfaceWrapper) GetArticles(ctx echo.Context) error {
+	var err error
+
+	// Invoke the callback with all the unmarshaled arguments
+	err = w.Handler.GetArticles(ctx)
+	return err
+}
+
+// PostArticles converts echo context to params.
+func (w *ServerInterfaceWrapper) PostArticles(ctx echo.Context) error {
+	var err error
+
+	// Invoke the callback with all the unmarshaled arguments
+	err = w.Handler.PostArticles(ctx)
+	return err
+}
+
+// GetArticlesArticleId converts echo context to params.
+func (w *ServerInterfaceWrapper) GetArticlesArticleId(ctx echo.Context) error {
+	var err error
+	// ------------- Path parameter "articleId" -------------
+	var articleId int
+
+	err = runtime.BindStyledParameterWithOptions("simple", "articleId", ctx.Param("articleId"), &articleId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true})
+	if err != nil {
+		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Invalid format for parameter articleId: %s", err))
+	}
+
+	// Invoke the callback with all the unmarshaled arguments
+	err = w.Handler.GetArticlesArticleId(ctx, articleId)
+	return err
+}
+
+// PutArticlesArticleId converts echo context to params.
+func (w *ServerInterfaceWrapper) PutArticlesArticleId(ctx echo.Context) error {
+	var err error
+	// ------------- Path parameter "articleId" -------------
+	var articleId int
+
+	err = runtime.BindStyledParameterWithOptions("simple", "articleId", ctx.Param("articleId"), &articleId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true})
+	if err != nil {
+		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("Invalid format for parameter articleId: %s", err))
+	}
+
+	// Invoke the callback with all the unmarshaled arguments
+	err = w.Handler.PutArticlesArticleId(ctx, articleId)
+	return err
 }
 
 // GetHealthcheck converts echo context to params.
@@ -156,6 +271,10 @@ func RegisterHandlersWithBaseURL(router EchoRouter, si ServerInterface, baseURL 
 		Handler: si,
 	}
 
+	router.GET(baseURL+"/articles", wrapper.GetArticles)
+	router.POST(baseURL+"/articles", wrapper.PostArticles)
+	router.GET(baseURL+"/articles/:articleId", wrapper.GetArticlesArticleId)
+	router.PUT(baseURL+"/articles/:articleId", wrapper.PutArticlesArticleId)
 	router.GET(baseURL+"/healthcheck", wrapper.GetHealthcheck)
 	router.GET(baseURL+"/users", wrapper.GetUsers)
 	router.POST(baseURL+"/users", wrapper.PostUsers)

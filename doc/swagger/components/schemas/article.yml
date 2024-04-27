@@ -1,0 +1,17 @@
+title: Article
+description: 記事
+type: object
+properties:
+  id:
+    type: integer
+    description: 記事ID
+  title:
+    type: string
+    description: タイトル
+  content:
+    type: string
+    description: 本文
+  imageId:
+    type: integer
+    description: 画像ID
+
