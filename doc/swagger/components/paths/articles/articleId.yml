@@ -1,0 +1,49 @@
+put:
+  summary: 記事編集
+  parameters:
+    - in: path
+      name: articleId
+      required: true
+      schema:
+        type: integer
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            title:
+              type: string
+              description: タイトル
+            content:
+              type: string
+              description: 本文
+            imageId:
+              type: integer
+              description: 画像ID
+          required:
+            - title
+            - content
+            - imageId
+  responses:
+    "204":
+      description: 成功
+get:
+  summary: 記事詳細
+  parameters:
+    - in: path
+      name: articleId
+      required: true
+      schema:
+        type: integer
+  responses:
+    "200":
+      description: 成功
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              user:
+                $ref: "../../schemas/article.yml"

@@ -1,0 +1,4 @@
+User:
+  $ref: "./user.yml"
+Article:
+  $ref: "./article.yml"

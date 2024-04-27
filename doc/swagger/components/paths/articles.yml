@@ -1,0 +1,41 @@
+post:
+  summary: 記事を作成
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            title:
+              type: string
+              description: タイトル
+            content:
+              type: string
+              description: 本文
+            imageId:
+              type: integer
+              description: 画像ID
+          required:
+            - title
+            - content
+            - imageId
+  responses:
+    "201":
+      description: 成功
+    "400":
+      description: リクエストが不正です。
+get:
+  summary: 記事一覧
+  responses:
+    "200":
+      description: 成功
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              users:
+                type: array
+                items:
+                  $ref: "../schemas/article.yml"
