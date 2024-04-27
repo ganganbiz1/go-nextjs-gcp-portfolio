@@ -6,6 +6,7 @@ backend/wire/integration_test/test_wire_gen.go
 **/*.tfstate
 **/.env*
 **/.terraform.lock.hcl
+**/terraform.tfstate.backup
 template-pj-firebase-firebase-adminsdk-ctrgy-db26213938.json
 newrelic/newrelic-infra.yml
 # githubactions
