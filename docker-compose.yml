@@ -1,4 +1,16 @@
 services:
+  frontend:
+    container_name: frontend
+    build:
+      context: ./frontend
+      target: dev
+    ports:
+      - "3002:3000"
+    volumes:
+      - ./frontend/:/frontend
+    env_file: .env.fornt
+    environment:
+      - WATCHPACK_POLLING=true
   backend:
     container_name: backend-api
     build:
