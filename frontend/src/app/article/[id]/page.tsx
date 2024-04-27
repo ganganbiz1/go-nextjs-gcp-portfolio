@@ -19,9 +19,7 @@ const ArticleDetail = async ({ params }: { params: { id: number } }) => {
       <h1 className="text-4xl text-center mb-10 mt-10 border-2 border-gray-300 rounded-lg shadow p-3">
         {article.title}
       </h1>
-      
-        <p>{article.content}</p>
-
+      <p>{article.content}</p>
     </div>
   );
 };
