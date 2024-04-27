@@ -22,8 +22,12 @@ resource "google_cloud_run_v2_service" "api" {
         value = "development"
       }
       env {
+        name = "FRONT_APP_HOST"
+        value = "https://portfolio-service-front-zadrkqynyq-an.a.run.app"
+      }
+      env {
         name = "APP_NAME"
-        value = "template-app-gcp"
+        value = "portfolio-app-gcp"
       }
       env {
         name = "SERVER_PORT"
