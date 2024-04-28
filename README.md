@@ -6,7 +6,7 @@
 
 ## terraform
 
-1. GCPのAPIは手動で有効にします。 
+1. GCPのAPIは手動で有効にします。   
    Please enable GCP API manually.　
 
 2. GCPのシークレットマネジャーは手動で値を設定します。  
