@@ -46,5 +46,5 @@ The application will be deployed to CloudRun on GCP by following the steps below
 Unit tests and integration tests are executed when creating push and pull requests to the repository.
 
 ## CD
-Pull requestsのマージ時にCloudRunへのデプロイされます。 
+Pull requestsのマージ時にCloudRunへのデプロイされます。  
 Deployed to CloudRun when merging pull requests.
