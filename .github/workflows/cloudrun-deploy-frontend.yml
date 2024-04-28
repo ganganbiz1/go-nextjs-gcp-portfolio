@@ -2,6 +2,10 @@ name: Deploy to Cloud Run Frontend
 
 on:
   workflow_dispatch:
+  pull_request:
+    types: [closed]
+    branches:
+      - main
 
 env:
   APP_ENV: dev
@@ -12,6 +16,7 @@ env:
 
 jobs:
   setup-and-deploy:
+    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
