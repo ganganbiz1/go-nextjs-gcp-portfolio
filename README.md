@@ -1,5 +1,9 @@
 # go-nextjs-gcp-portfolio
 
+## 構成
+![image](https://github.com/ganganbiz1/go-nextjs-gcp-portfolio/assets/121212918/57650652-2a5e-40f2-bc9e-6c0941c2a588)
+
+
 ## terraform
 
 1. GCPのAPIは手動で有効にします。 
