@@ -17,5 +17,11 @@ func NewFirebaseUserInfo(email, uid, providerID string) *FirebaseUserInfo {
 }
 
 func (m *FirebaseUserInfo) ToUserEntity() *entity.User {
-	return entity.NewUser(0, m.Email, "", m.UID, m.ProviderID)
+	return entity.NewUser(0,
+		m.Email,
+		"",
+		m.UID,
+		m.ProviderID,
+		nil,
+	)
 }

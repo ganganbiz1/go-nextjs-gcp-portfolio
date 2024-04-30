@@ -39,5 +39,6 @@ func (d *User) ToEntity() *entity.User {
 		d.Name,
 		d.FirebaseUID,
 		d.FirebaseProviderID,
+		nil,
 	)
 }

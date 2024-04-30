@@ -34,12 +34,12 @@ ui:
 
 .PHONY: test
 test: 
-	docker container exec -it ${APP_CONTAINER_NAME} go test ./... -coverprofile=coverage.out
+	docker container exec -it ${APP_CONTAINER_NAME} go test ./domain/service/... -coverprofile=coverage.out
 	docker container exec -it ${APP_CONTAINER_NAME} go tool cover -html=coverage.out -o coverage.html
 
 .PHONY: test-it
 test-it: 
-	docker container exec -it ${APP_CONTAINER_NAME} go test ./handler
+	docker container exec -it ${APP_CONTAINER_NAME} go test ./handler/...
 
 .PHONY: wire
 wire: 

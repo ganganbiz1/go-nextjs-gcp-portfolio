@@ -95,6 +95,7 @@ func Test_User_Search(t *testing.T) {
 		Name:               "テスト太郎",
 		FirebaseUID:        "abcdefg",
 		FirebaseProviderID: "test",
+		Articles:           nil,
 	}
 
 	tests := []struct {
@@ -108,7 +109,7 @@ func Test_User_Search(t *testing.T) {
 			testName: "正常系",
 			args:     args{id: 1},
 			setMock: func() {
-				userRepo.EXPECT().Get(gomock.Any(), gomock.Any()).Return(expectedUser, nil)
+				userRepo.EXPECT().GetWithArticles(gomock.Any(), gomock.Any()).Return(expectedUser, nil)
 			},
 			want:    expectedUser,
 			wantErr: nil,
@@ -117,7 +118,7 @@ func Test_User_Search(t *testing.T) {
 			testName: "異常系: 取得エラー",
 			args:     args{id: 1},
 			setMock: func() {
-				userRepo.EXPECT().Get(gomock.Any(), gomock.Any()).Return(nil, domain.ErrInternal)
+				userRepo.EXPECT().GetWithArticles(gomock.Any(), gomock.Any()).Return(nil, domain.ErrInternal)
 			},
 			want:    nil,
 			wantErr: domain.ErrInternal,
@@ -126,7 +127,7 @@ func Test_User_Search(t *testing.T) {
 			testName: "異常系: NotFoundエラー",
 			args:     args{id: 1},
 			setMock: func() {
-				userRepo.EXPECT().Get(gomock.Any(), gomock.Any()).Return(nil, domain.ErrNotFound)
+				userRepo.EXPECT().GetWithArticles(gomock.Any(), gomock.Any()).Return(nil, domain.ErrNotFound)
 			},
 			want:    nil,
 			wantErr: domain.ErrNotFound,
@@ -135,7 +136,7 @@ func Test_User_Search(t *testing.T) {
 			testName: "異常系: NotFound",
 			args:     args{id: 1},
 			setMock: func() {
-				userRepo.EXPECT().Get(gomock.Any(), gomock.Any()).Return(nil, nil)
+				userRepo.EXPECT().GetWithArticles(gomock.Any(), gomock.Any()).Return(nil, nil)
 			},
 			want:    nil,
 			wantErr: domain.ErrNotFound,
