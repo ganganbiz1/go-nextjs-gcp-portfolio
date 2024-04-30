@@ -21,19 +21,15 @@ func getDB(di *test_wire.DIManager) *gorm.DB {
 
 func truncate(db *gorm.DB) error {
 	ts := []string{
+		"articles",
 		"users",
 	}
-	// 外部キー制約のエラー出ないように設定
-	if err := db.Exec("SET session_replication_role = replica").Error; err != nil {
-		return err
-	}
+
 	for _, t := range ts {
-		if err := db.Exec(fmt.Sprintf("truncate table %s", t)).Error; err != nil {
+		if err := db.Exec(fmt.Sprintf("truncate table %s CASCADE", t)).Error; err != nil {
 			return err
 		}
 	}
-	if err := db.Exec("SET session_replication_role = DEFAULT").Error; err != nil {
-		return err
-	}
+
 	return nil
 }

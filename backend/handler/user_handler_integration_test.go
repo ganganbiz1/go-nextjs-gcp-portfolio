@@ -142,7 +142,8 @@ func Test_User_Search(t *testing.T) {
 										"email": "test1@test.com",
 										"name": "テスト太郎",
 										"firebaseUId": "abc",
-										"firebaseProviderId": "firebase"
+										"firebaseProviderId": "firebase",
+										"articles": []
 									}
 								}
 							`
