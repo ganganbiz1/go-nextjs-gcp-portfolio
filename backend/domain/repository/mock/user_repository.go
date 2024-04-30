@@ -111,6 +111,21 @@ func (mr *MockIfUserRepositoryMockRecorder) Get(arg0, arg1 any) *gomock.Call {
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Get", reflect.TypeOf((*MockIfUserRepository)(nil).Get), arg0, arg1)
 }
 
+// GetWithArticles mocks base method.
+func (m *MockIfUserRepository) GetWithArticles(arg0 context.Context, arg1 int) (*entity.User, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetWithArticles", arg0, arg1)
+	ret0, _ := ret[0].(*entity.User)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetWithArticles indicates an expected call of GetWithArticles.
+func (mr *MockIfUserRepositoryMockRecorder) GetWithArticles(arg0, arg1 any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetWithArticles", reflect.TypeOf((*MockIfUserRepository)(nil).GetWithArticles), arg0, arg1)
+}
+
 // ListWithChan mocks base method.
 func (m *MockIfUserRepository) ListWithChan(arg0 context.Context, arg1 []int, arg2 chan<- *entity.User, arg3 chan<- error) {
 	m.ctrl.T.Helper()

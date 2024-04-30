@@ -6,6 +6,8 @@ type User struct {
 	Name               string
 	FirebaseUID        string
 	FirebaseProviderID string
+
+	Articles []*Article
 }
 
 func NewUser(
@@ -14,6 +16,7 @@ func NewUser(
 	name,
 	firebaseUID,
 	firebaseProviderID string,
+	articles []*Article,
 ) *User {
 	return &User{
 		ID:                 id,
@@ -21,6 +24,8 @@ func NewUser(
 		Name:               name,
 		FirebaseUID:        firebaseUID,
 		FirebaseProviderID: firebaseProviderID,
+
+		Articles: articles,
 	}
 }
 

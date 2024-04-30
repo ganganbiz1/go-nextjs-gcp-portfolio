@@ -66,6 +66,7 @@ func (s *UserService) Signup(ctx context.Context, e *entity.User, password strin
 			e.Name,
 			fu.FirebaseUID,
 			fu.FirebaseProviderID,
+			nil,
 		)); err != nil {
 		return domain.HandleError(domain.ErrInternal, err)
 	}
@@ -121,6 +122,7 @@ func (s *UserService) PublicSignup(ctx context.Context, e *entity.User) error {
 			e.Name,
 			fmt.Sprintf("%s_uid", e.Name),
 			fmt.Sprintf("%s_provider", e.Name),
+			nil,
 		)); err != nil {
 		return domain.HandleError(domain.ErrInternal, err)
 	}
@@ -142,7 +144,7 @@ func (s *UserService) Login(ctx context.Context, email, idToken string) (*entity
 }
 
 func (s *UserService) Search(ctx context.Context, id int) (*entity.User, error) {
-	e, err := s.userRepo.Get(ctx, id)
+	e, err := s.userRepo.GetWithArticles(ctx, id)
 	if err != nil && err != domain.ErrNotFound {
 		return nil, domain.HandleError(domain.ErrInternal, err)
 	}

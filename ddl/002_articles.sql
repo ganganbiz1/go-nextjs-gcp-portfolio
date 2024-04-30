@@ -7,5 +7,6 @@ CREATE TABLE public.articles (
 	created_at timestamptz NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	updated_at timestamptz NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	deleted_at timestamptz NULL,
-	CONSTRAINT articles_pk PRIMARY KEY (id)
+	CONSTRAINT articles_pk PRIMARY KEY (id),
+	FOREIGN KEY (user_id) REFERENCES users(id)
 );

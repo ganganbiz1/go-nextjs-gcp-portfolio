@@ -56,6 +56,21 @@ func (r *UserRepository) Get(ctx context.Context, id int) (*entity.User, error) 
 	return m.ToEntity(), nil
 }
 
+func (r *UserRepository) GetWithArticles(ctx context.Context, id int) (*entity.User, error) {
+	var m model.User
+	err := r.replicaDB.WithContext(ctx).
+		Preload("Articles").
+		Where("id = ?", id).
+		First(&m).
+		Error
+
+	if err != nil {
+		return nil, infra.HandleError(err)
+	}
+
+	return m.ToEntity(), nil
+}
+
 func (r *UserRepository) CountByEmail(ctx context.Context, email string) (int, error) {
 	exec := r.baseRepo.getExec(ctx)
 	var count int64

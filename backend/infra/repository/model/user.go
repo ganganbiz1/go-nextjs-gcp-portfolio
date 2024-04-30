@@ -4,6 +4,7 @@ import (
 	"time"
 
 	"github.com/ganganbiz1/go-nextjs-gcp-portfolio/backend/domain/entity"
+
 	"gorm.io/gorm"
 )
 
@@ -16,6 +17,8 @@ type User struct {
 	CreatedAt          time.Time
 	UpdatedAt          time.Time
 	DeletedAt          *gorm.DeletedAt
+
+	Articles []*Article `gorm:"foreignKey:UserID"`
 }
 
 type Users []*User
@@ -27,6 +30,7 @@ func (m *User) ToEntity() *entity.User {
 		m.Name,
 		m.FirebaseUID,
 		m.FirebaseProviderID,
+		Articles(m.Articles).ToEntity(),
 	)
 }
 
